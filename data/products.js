@@ -730,8 +730,9 @@ export function loadProductsFetch() {
       }
       return new Product(productDetails);
     });
-
     console.log('load products');
+  }).catch((error) => {
+    console.log('Unexpected Error.asdfasd');
   });
 
   return promise;
@@ -741,19 +742,24 @@ export function loadProductsFetch() {
 //   console.log('next step')
 // });
 
-// export function loadProducts(render) {
-//   const xhr = new XMLHttpRequest();
-//   xhr.addEventListener('load', () => {
-//     products = JSON.parse(xhr.response).map((productDetails) => {
-//       if (productDetails.type === 'clothing') {
-//         return new Clothing(productDetails);
-//       }
-//       return new Product(productDetails);
-//     });
+export function loadProducts(render) {
+  const xhr = new XMLHttpRequest();
+  xhr.addEventListener('load', () => {
+    products = JSON.parse(xhr.response).map((productDetails) => {
+      if (productDetails.type === 'clothing') {
+        return new Clothing(productDetails);
+      }
+      return new Product(productDetails);
+    });
 
-//     console.log('load products');
-//     render()
-//   });
-//   xhr.open('GET', 'https://supersimplebackend.dev/products');
-//   xhr.send();
-// }
+    console.log('load products');
+    render()
+  });
+
+  xhr.addEventListener('error', (error) => {
+    console.log('Unexpected Error.');
+  });
+
+  xhr.open('GET', 'https://supersimplebackend.dev/products');
+  xhr.send();
+}
